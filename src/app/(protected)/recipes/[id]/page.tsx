@@ -21,7 +21,7 @@ const EditRecipePage = () => {
       setRecipe(foundRecipe);
       setHasSearched(true);
     }
-  }, [foundRecipe, error]);
+  }, [foundRecipe, error, recipes.length]); // Добавили recipes.length
 
   if (isLoading) return <p className='text-center'>Загрузка...</p>;
   if (error) return <p className='text-red-500 text-center'>{error}</p>;

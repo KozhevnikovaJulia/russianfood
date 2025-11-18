@@ -4,7 +4,7 @@ import { RecipeForm } from '@/forms/recipe.form';
 import { useRecipeStore } from '@/store/recipe.store';
 import { IRecipeType } from '@/types/types';
 import { useParams } from 'next/navigation';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 
 const EditRecipePage = () => {
   const { id } = useParams<{ id: string }>();
@@ -12,25 +12,17 @@ const EditRecipePage = () => {
   const [recipe, setRecipe] = useState<IRecipeType | null>(null);
   const [hasSearched, setHasSearched] = useState(false);
 
-  // useEffect(() => {
-  //   if (recipes.length > 0 || error) {
-  //     const foundRecipe = recipes.find(r => r.id === id);
-  //     setRecipe(foundRecipe || null);
-  //     setHasSearched(true);
-  //   }
-  // }, [recipes, id, error]);
-  useEffect(() => {
-    // Проверяем, нужно ли обновлять состояние
-    if (recipes.length > 0 || error) {
-      const foundRecipe = recipes.find(r => r.id === id);
+  const findAndSetRecipe = useCallback(() => {
+    const foundRecipe = recipes.find(r => r.id === id);
+    setRecipe(foundRecipe || null);
+    setHasSearched(true);
+  }, [recipes, id]);
 
-      // Обновляем состояние только если рецепт изменился
-      if (recipe !== foundRecipe) {
-        setRecipe(foundRecipe || null);
-        setHasSearched(true);
-      }
+  useEffect(() => {
+    if (recipes.length > 0 || error) {
+      findAndSetRecipe();
     }
-  }, [recipes, id, error, recipe]);
+  }, [findAndSetRecipe, error]);
 
   if (isLoading) return <p className='text-center'>Загрузка...</p>;
   if (error) return <p className='text-red-500 text-center'>{error}</p>;

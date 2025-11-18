@@ -4,7 +4,7 @@ import { RecipeForm } from '@/forms/recipe.form';
 import { useRecipeStore } from '@/store/recipe.store';
 import { IRecipeType } from '@/types/types';
 import { useParams } from 'next/navigation';
-import { useCallback, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 
 const EditRecipePage = () => {
   const { id } = useParams<{ id: string }>();
@@ -12,17 +12,17 @@ const EditRecipePage = () => {
   const [recipe, setRecipe] = useState<IRecipeType | null>(null);
   const [hasSearched, setHasSearched] = useState(false);
 
-  const findAndSetRecipe = useCallback(() => {
-    const foundRecipe = recipes.find(r => r.id === id);
-    setRecipe(foundRecipe || null);
-    setHasSearched(true);
-  }, [recipes, id]);
-
   useEffect(() => {
     if (recipes.length > 0 || error) {
-      findAndSetRecipe();
+      const foundRecipe = recipes.find(r => r.id === id);
+      // Проверяем, изменился ли рецепт
+      setRecipe(prev => {
+        if (prev?.id === foundRecipe?.id) return prev;
+        return foundRecipe || null;
+      });
+      setHasSearched(true);
     }
-  }, [recipes, error]);
+  }, [recipes, id, error]); // все зависимости явно указаны
 
   if (isLoading) return <p className='text-center'>Загрузка...</p>;
   if (error) return <p className='text-red-500 text-center'>{error}</p>;

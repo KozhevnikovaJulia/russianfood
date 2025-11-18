@@ -12,13 +12,25 @@ const EditRecipePage = () => {
   const [recipe, setRecipe] = useState<IRecipeType | null>(null);
   const [hasSearched, setHasSearched] = useState(false);
 
+  // useEffect(() => {
+  //   if (recipes.length > 0 || error) {
+  //     const foundRecipe = recipes.find(r => r.id === id);
+  //     setRecipe(foundRecipe || null);
+  //     setHasSearched(true);
+  //   }
+  // }, [recipes, id, error]);
   useEffect(() => {
+    // Проверяем, нужно ли обновлять состояние
     if (recipes.length > 0 || error) {
       const foundRecipe = recipes.find(r => r.id === id);
-      setRecipe(foundRecipe || null);
-      setHasSearched(true);
+
+      // Обновляем состояние только если рецепт изменился
+      if (recipe !== foundRecipe) {
+        setRecipe(foundRecipe || null);
+        setHasSearched(true);
+      }
     }
-  }, [recipes, id, error]);
+  }, [recipes, id, error, recipe]);
 
   if (isLoading) return <p className='text-center'>Загрузка...</p>;
   if (error) return <p className='text-red-500 text-center'>{error}</p>;

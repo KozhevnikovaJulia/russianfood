@@ -1,6 +1,6 @@
 export const siteConfig = {
   title: 'rusfood',
-  description: 'first next app',
+  description: '',
   navBarItemsArr: [
     { href: '/', label: 'Рецепты' },
     { href: '/ingredients', label: 'Ингредиенты' },

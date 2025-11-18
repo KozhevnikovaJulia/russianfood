@@ -22,7 +22,7 @@ const EditRecipePage = () => {
     if (recipes.length > 0 || error) {
       findAndSetRecipe();
     }
-  }, [findAndSetRecipe, error]);
+  }, [recipes, error]);
 
   if (isLoading) return <p className='text-center'>Загрузка...</p>;
   if (error) return <p className='text-red-500 text-center'>{error}</p>;

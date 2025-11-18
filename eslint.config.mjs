@@ -16,6 +16,11 @@ const eslintConfig = defineConfig([
   {
     ignores: ['src/generated/**'],
   },
+  {
+    rules: {
+      'react-hooks/set-state-in-effect': 'warn',
+    },
+  },
 ]);
 
 export default eslintConfig;

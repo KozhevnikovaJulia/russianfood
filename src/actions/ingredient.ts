@@ -4,7 +4,6 @@ import { ingredientSchema } from '@/schema/zod';
 import { z } from 'zod';
 
 export const createIngredient = async (formData: FormData) => {
-  console.log(formData);
   try {
     const data = {
       name: formData.get('name') as string,
@@ -26,14 +25,8 @@ export const createIngredient = async (formData: FormData) => {
     return { success: true, ingredient };
   } catch (error) {
     if (error instanceof z.ZodError) {
-      console.log(error.issues);
       return { error: error.issues.map(e => e.message).join(', ') };
     }
-
-    //     if (error instanceof ZodError) {
-    //   return { error: error.errors.map((e) => e.message).join(", ") };
-    // }
-    console.log(error);
     return { error: 'Ошибка при создании ингредиента' };
   }
 };

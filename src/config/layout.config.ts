@@ -1,4 +1,4 @@
-export const loyautConfig = {
+export const layoutConfig = {
   title: 'next',
   //   footerHeight: 'h-16',
   //   headerHeight: 'h-20',

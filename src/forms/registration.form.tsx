@@ -16,10 +16,7 @@ export const RegistrationForm = ({ onClose }: IPropsType) => {
 
   const onSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log(formData);
-
-    const result = await registerUser(formData);
-    console.log(result);
+    await registerUser(formData);
     onClose();
   };
   const validateEmail = (email: string) => {

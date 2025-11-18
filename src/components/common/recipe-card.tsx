@@ -6,7 +6,7 @@ import Link from 'next/link';
 import { useTransition } from 'react';
 import Image from 'next/image';
 import { UNIT_ABBREVIATIONS } from '@/constants/select-options';
-// import { useAuthStore } from '@/store/auth.store';
+import { useAuthStore } from '@/store/auth.store';
 import { IRecipeType } from '@/types/types';
 
 interface RecipeCardProps {
@@ -15,7 +15,7 @@ interface RecipeCardProps {
 
 export const RecipeCard = ({ recipe }: RecipeCardProps) => {
   const { removeRecipe } = useRecipeStore();
-  //   const { isAuth } = useAuthStore();
+  const { isAuth } = useAuthStore();
   const [isPending, startTransition] = useTransition();
 
   const handleDelete = () => {
@@ -63,18 +63,18 @@ export const RecipeCard = ({ recipe }: RecipeCardProps) => {
         </ul>
       </CardBody>
 
-      {/* {isAuth && ( */}
-      <div className='flex justify-end gap-2 p-4'>
-        <Link href={`/recipes/${recipe.id}`}>
-          <Button color='primary' variant='light'>
-            Редактировать
+      {isAuth && (
+        <div className='flex justify-end gap-2 p-4'>
+          <Link href={`/recipes/${recipe.id}`}>
+            <Button color='primary' variant='light'>
+              Редактировать
+            </Button>
+          </Link>
+          <Button color='danger' variant='light' onPress={handleDelete} isLoading={isPending}>
+            Удалить
           </Button>
-        </Link>
-        <Button color='danger' variant='light' onPress={handleDelete} isLoading={isPending}>
-          Удалить
-        </Button>
-      </div>
-      {/* )} */}
+        </div>
+      )}
     </Card>
   );
 };

@@ -15,7 +15,7 @@ export const CustomModal = ({ isOpen, onClose, title, children, size }: IPropsTy
     <Modal isOpen={isOpen} onClose={onClose} size={size}>
       <ModalContent>
         <ModalHeader className='border-b border-b-gray-100'>
-          <h3 className='text-xl font-semibolt'>{title}</h3>
+          <h3 className='text-xl text-background font-semibolt'>{title}</h3>
         </ModalHeader>
         <ModalBody className='space-y-4 py-6'>{children}</ModalBody>
       </ModalContent>

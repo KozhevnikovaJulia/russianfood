@@ -1,16 +1,8 @@
 export type IFormDataType = {
-  email: String;
-  password: String;
-  confirmPassword: String;
+  email: string;
+  password: string;
+  confirmPassword: string;
 };
-
-// export type IIngredientType = {
-//   name: string;
-//   category: string;
-//   unit: string;
-//   pricePerUnit: number | null;
-//   description: string | null;
-// };
 
 export type IIngredientType = {
   id: string;

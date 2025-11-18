@@ -18,9 +18,7 @@ export const IngredientForm = () => {
   const [isPending, startTransition] = useTransition();
   const { addIngredient } = useIngredientStore();
 
-  const onSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-
+  const onSubmit = async (formData: FormData) => {
     startTransition(async () => {
       await addIngredient(formData);
       const storeError = useIngredientStore.getState().error;
@@ -31,21 +29,11 @@ export const IngredientForm = () => {
         setError(null);
         setFormData(initialState);
       }
-
-      // const result = await createIngredient(formData);
-      // if (result.error) {
-      //   setError(result.error);
-      //   alert('Ошибка при создании ингредиента');
-      // } else {
-      //   setError(null);
-      //   setFormData(initialState);
-      //   alert('Успешное создание ингредиента');
-      // }
     });
   };
 
   return (
-    <Form className='w-full' onSubmit={onSubmit}>
+    <Form className='w-full' action={onSubmit}>
       {error && <p className='text-red-500 mb-4'>{error}</p>}
       <Input
         isRequired

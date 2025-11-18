@@ -1,8 +1,9 @@
 'use server';
+import { IFormDataType } from '@/types/types';
+import { saltAndHashPassword } from '@/utils/password';
 import prisma from '@/utils/prisma';
-import { IFormDataType } from '../types/types';
 
-export const registerUser = async (formData: IFormDataType) => {
+export async function registerUser(formData: IFormDataType) {
   const { email, password, confirmPassword } = formData;
 
   if (password !== confirmPassword) {
@@ -22,16 +23,18 @@ export const registerUser = async (formData: IFormDataType) => {
       return { error: 'Пользователь с таким email уже существует' };
     }
 
+    const pwHash = await saltAndHashPassword(password);
+
     const user = await prisma.user.create({
       data: {
         email: email,
-        password: password,
+        password: pwHash,
       },
     });
-    console.log(user);
+
     return user;
   } catch (error) {
-    console.log(error);
+    console.error('Ошибка регистрации:', error);
     return { error: 'Ошибка при регистрации' };
   }
-};
+}
